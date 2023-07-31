@@ -42,10 +42,10 @@ export const createExpenseAsync = (ExpenseData)=> async (dispatch)=>{
     try{
         let response = await axios.post("/createExpense",ExpenseData)
     dispatch(createExpense(response.data))
-    // // console.log(response);
+    console.log(response);
     }
     catch(err){
-      // // console.log(err.response)
+      console.log(err.response)
     }
 }
 
@@ -53,9 +53,9 @@ export const allUserExpenseAsync = ()=> async (dispatch)=>{
     try {
         let response = await axios.get("/allexpense")
     dispatch(allUserExpense(response.data))
-    // // console.log(response);
+    console.log(response);
     } catch (err) {
-        // // console.log(err.response)
+        console.log(err.response)
     }
 }
 
@@ -63,9 +63,9 @@ export const userExpenseAsync = ()=> async (dispatch)=>{
     try {
         let response = await axios.get("/userExpense")
     dispatch(userExpense(response.data))
-    // // console.log(response);
+    console.log(response);
     } catch (err) {
-        // // console.log(err.response)
+        console.log(err.response)
     }
 }
 
@@ -73,11 +73,11 @@ export const editExpenseAsync = (ExpenseData,id)=> async (dispatch)=>{
     try{
         let response = await axios.post(`/editExpense/${id}`,ExpenseData)
         dispatch(editExpense(response.data))
-        // // console.log(response);
+        console.log(response);
         dispatch(allUserExpenseAsync())
     }
     catch(err){
-        // // console.log(err.response)
+        console.log(err.response)
     }
 }
 
@@ -85,11 +85,11 @@ export const deleteExpenseAsync = (id)=> async (dispatch)=>{
     try{
         let response = await axios.get(`/deleteExpense/${id}`)
         dispatch(deleteExpense(response.data))
-        // // console.log(response);
+        console.log(response);
         dispatch(allUserExpenseAsync())
     }
     catch(err){
-        // // console.log(err.response)
+        console.log(err.response)
     }
 }
 

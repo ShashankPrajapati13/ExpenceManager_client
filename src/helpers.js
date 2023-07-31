@@ -10,7 +10,7 @@ export const categoryOptions = [
   "Home",
 ];
 export const serialize = (data) =>{
- 
+  console.log(data)
   if(data.length === 0 ) return [];
   
   let finalArray = [];

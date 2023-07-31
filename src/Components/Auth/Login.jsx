@@ -33,7 +33,7 @@ export default function Login() {
       email:"",
       password:""
   })
-    // console.log(loginData)
+    console.log(loginData)
   }
 
     return (

@@ -111,7 +111,7 @@ function Dashboard() {
   const navigate = useNavigate();
   const data = useSelector(e=>e)
 
-  // console.log(data.expense.allExpense)
+  console.log(data.user)
   
 
   let AllExpenceData = data.expense.allExpense

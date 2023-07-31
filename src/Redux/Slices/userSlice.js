@@ -34,33 +34,36 @@ export const registerAsync = (formData)=> async (dispatch)=>{
     try{
         let response = await axios.post("/register",formData)
     dispatch(login(response.data))
-    // // console.log(response);
+    console.log(response);
     }
     catch(err){
-      // // console.log(err.response)
+      console.log(err.response)
     }
 }
 
 export const loginAsync = (formData)=>async (dispatch)=>{
     try{
-        // // console.log(formData)
+        console.log(formData)
     const response = await axios.post("/login", formData)
     dispatch(login(response.data))
-    // // console.log(response);
+    console.log(response);
     }
     catch(err){
-        // // console.log(err.response)
+        console.log(err.response)
     }
 }
 
 export const loadUserAsync = () =>async (dispatch)=>{
     try{
         let loggedInUser = await axios.get("/getuser");
-        // // console.log(loggedInUser)
-        dispatch(loadUser(loggedInUser.data))
+        console.log(loggedInUser.data.value)
+        if (loggedInUser.data.value) {
+            dispatch(loadUser(loggedInUser.data))
+        }
+        
     }
     catch(err){
-        // // console.log(err.response)
+        console.log(err.response)
     }
 }
 
@@ -70,7 +73,7 @@ export const logOutAsync = () =>async (dispatch)=>{
         dispatch(logout())
     }
     catch(err){
-        // // console.log(err.response)
+        console.log(err.response)
     }
 }
 
