@@ -10,28 +10,28 @@ function CreatePopup({ open, setOpen }) {
   const dispatch = useDispatch()
 
   const [expenseData, setExpenseData] = useState({
-    expenseName:"",
-    dateOfexpense:"",
-    amount:"",
-    expenseDes:"",
-    category:"",
+    expenseName: "",
+    dateOfexpense: "",
+    amount: "",
+    expenseDes: "",
+    category: "",
   })
 
-  const changeHandler = (e)=>{
-    setExpenseData({...expenseData,[e.target.name]:e.target.value})
-    // console.log(e.target.value,e.target.name)
-    // console.log(expenseData)
+  const changeHandler = (e) => {
+    setExpenseData({ ...expenseData, [e.target.name]: e.target.value })
+    // // console.log(e.target.value,e.target.name)
+    // // console.log(expenseData)
   }
-  const submitHandler = (e)=>{
+  const submitHandler = (e) => {
     e.preventDefault();
-    // console.log(expenseData)
+    // // console.log(expenseData)
     dispatch(createExpenseAsync(expenseData))
     setExpenseData({
-      email:"",
-      password:""
-  })
-  setOpen(false);
-    // console.log(expenseData)
+      email: "",
+      password: ""
+    })
+    setOpen(false);
+    // // console.log(expenseData)
   }
 
   return (

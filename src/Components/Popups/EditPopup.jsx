@@ -6,37 +6,36 @@ import { useDispatch } from "react-redux";
 import moment from "moment-timezone";
 
 function EditPopup({ open, setOpen, dets }) {
-  const cancelButtonRef = useRef(null); 
-  // // // console.log(dets)
+  const cancelButtonRef = useRef(null);
+  // // // // console.log(dets)
 
 
   const dispatch = useDispatch()
 
   const [expenseData, setExpenseData] = useState({
-    expenseName:dets.expenseName,
-    dateOfexpense:dets.dateOfexpense,
-    amount:dets.amount,
-    expenseDes:dets.expenseDes,
-    category:dets.category,
+    expenseName: dets.expenseName,
+    dateOfexpense: new Date(dets.dateOfexpense).toISOString().split('T')[0],
+    amount: dets.amount,
+    expenseDes: dets.expenseDes,
+    category: dets.category,
   })
 
-  const changeHandler = (e)=>{
-    setExpenseData({...expenseData,[e.target.name]:e.target.value})
-    // // // console.log(e.target.value,e.target.name)
-    // // // console.log(expenseData)
+  const changeHandler = (e) => {
+    setExpenseData({ ...expenseData, [e.target.name]: e.target.value })
+    // // // // console.log(e.target.value,e.target.name)
+    // // // // console.log(expenseData)
   }
-  const submitHandler = (e)=>{
+  const submitHandler = (e) => {
     e.preventDefault();
-    // // // console.log(expenseData)
-    dispatch(editExpenseAsync(expenseData,dets.id))
+    // // // // console.log(expenseData)
+    dispatch(editExpenseAsync(expenseData, dets.id))
     setExpenseData({
-      email:"",
-      password:""
-  })
-  setOpen(false);
-    // // // console.log(expenseData)
+      email: "",
+      password: ""
+    })
+    setOpen(false);
+    // // // // console.log(expenseData)
   }
-
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -58,7 +57,7 @@ function EditPopup({ open, setOpen, dets }) {
           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         </Transition.Child>
 
-        <div className="fixed inset-0 z-10 overflow-y-auto">
+        <div className="fixed inset-0 z-10 overflow-y-auto" >
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <Transition.Child
               as={Fragment}
@@ -80,7 +79,7 @@ function EditPopup({ open, setOpen, dets }) {
                     </Dialog.Title>
                   </div>
                   <div className="flex min-h-full flex-1 flex-col justify-center  py-5 ">
-                  <form className="space-y-6" onSubmit={submitHandler}>
+                    <form className="space-y-6" onSubmit={submitHandler}>
                       <div>
                         <label
                           htmlFor="expenseName"

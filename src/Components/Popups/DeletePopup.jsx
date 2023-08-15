@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 
 function DeletePopup({ open, setOpen, id }) {
   const cancelButtonRef = useRef(null);
-  // console.log(id)
+  // // console.log(id)
   const dispatch = useDispatch()
   const deleteHandler = async () => {
     dispatch(deleteExpenseAsync(id))

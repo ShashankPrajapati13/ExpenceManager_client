@@ -1,10 +1,10 @@
 import { DataGrid } from "@mui/x-data-grid";
 
 
-function CustomTable({columns, data}) {
+function CustomTable({ columns, data }) {
   return (
     <div className="flex justify-center">
-      <div style={{ height: 400, width: "fit-content" }}>
+      <div style={{ height: 400, width: '100vw' }}>
         <DataGrid
           rows={data}
           columns={columns}
@@ -16,7 +16,7 @@ function CustomTable({columns, data}) {
               columnVisibilityModel: {
                 // Hide columns status and traderName, the other columns will remain visible
                 expenseDes: false,
-                
+
               },
             },
           }}

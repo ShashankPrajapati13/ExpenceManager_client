@@ -5,7 +5,6 @@ import Button from "@mui/material/Button";
 import CustomTable from "../Table/Table";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import DEMO_DATA from "../Table/SAMPLE_DATA";
 import DeletePopup from "../Popups/DeletePopup";
 import EditPopup from "../Popups/EditPopup";
 import CreatePopup from "../Popups/CreatePopup";
@@ -16,16 +15,12 @@ import { logOutAsync, logout } from "../../Redux/Slices/userSlice";
 import { allUserExpenseAsync } from "../../Redux/Slices/expenseSlice";
 import { serialize } from "../../helpers";
 import moment from "moment-timezone";
-const user = {
-  name: "Tom Cook",
-  email: "tom@example.com",
-  imageUrl:
-    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-};
-const navigation = [{ name: "Dashboard", href: "#", current: true }];
+
+
+const navigation = [{ name: "Dashboard", href: "/dashboard", current: true }];
 const userNavigation = [
-  { name: "Your Profile", func:""},
-  { name: "Sign out", func:"logoutHandler" },
+  { name: "Your Profile", func: "" },
+  { name: "Sign out", func: "logoutHandler" },
 ];
 
 function classNames(...classes) {
@@ -39,18 +34,20 @@ function Dashboard() {
   const [editId, setEditId] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
   const [editDets, setEditDets] = useState(null)
+  const [time, setTime] = useState()
   const columns = [
     { field: "expenseName", headerName: "Name", type: "string", width: 150 },
     { field: "category", headerName: "Category", type: "string", width: 150 },
-    { field: "dateOfexpense", headerName: "Date Of Expense", type: "string", width: 150,valueGetter: (params) => moment.tz(params.row.dateOfexpense, "Asia/Bangkok").format("DD MMM, YYYY") },
+    { field: "dateOfexpense", headerName: "Date Of Expense", type: "string", width: 150, valueGetter: (params) => moment.tz(params.row.dateOfexpense, "Asia/Bangkok").format("DD MMM, YYYY") },
     { field: "amount", headerName: "Amount", type: "string", width: 150 },
     { field: "expenseDes", headerName: "Expence Des.", type: "string", width: 150 },
     {
       field: "updatedAt",
       headerName: "Updated At",
       width: 150,
-       valueGetter: (params) => moment(params.row.updateAt).fromNow()
-         
+      valueGetter: (params) => { return moment(params.row.updatedAt).fromNow() }
+
+
     },
     {
       field: "createdAt",
@@ -60,18 +57,18 @@ function Dashboard() {
       width: 150,
 
       valueGetter: (params) => moment.tz(params.row.createdAt, "Asia/Bangkok").format("DD MMM, YYYY")
-      
+
     },
     {
       field: "user",
       headerName: "Created By",
       width: 150,
-      valueGetter: (props) =>{
-        // console.log(props.row.user._id,data.user.user.user._id)
-       return props?.row?.user?._id== data?.user?.user?.user?._id ? 'me':props?.row?.user?.email
+      valueGetter: (props) => {
+        // // console.log(props.row.user._id,data.user.user.user._id)
+        return props?.row?.user?._id == data?.user?.user?.user?._id ? 'me' : props?.row?.user?.email
       }
-      
-      
+
+
     },
     {
       field: "actions",
@@ -87,7 +84,7 @@ function Dashboard() {
           }}
           className="edit-icon"
         />
-        
+
       ),
     },
     {
@@ -109,22 +106,29 @@ function Dashboard() {
 
   const dispatch = useDispatch()
   const navigate = useNavigate();
-  const data = useSelector(e=>e)
+  const data = useSelector(e => e)
 
-  console.log(data.user)
-  
+  const user = {
+    name: data?.user?.user?.user?.username,
+    email: data?.user?.user?.user?.email,
+    imageUrl:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+  };
+
+  // console.log(data.user)
+
 
   let AllExpenceData = data.expense.allExpense
 
   useEffect(() => {
-        if(data.user.isAuthenticate){
-           navigate('/dashboard')
-           dispatch(allUserExpenseAsync())
-        }
-        else navigate('/') 
-    }, [data.user.isAuthenticate,data.expense.expense])
+    if (data.user.isAuthenticate) {
+      navigate('/dashboard')
+      dispatch(allUserExpenseAsync())
+    }
+    else navigate('/')
+  }, [data.user.isAuthenticate, data.expense.expense, time])
 
-  const logoutHandler = ()=>{
+  const logoutHandler = () => {
     dispatch(logOutAsync())
   }
 
@@ -146,7 +150,7 @@ function Dashboard() {
                       <div className="ml-10 flex items-baseline space-x-4">
                         {navigation.map((item) => (
                           <button
-                            
+
                             onClick={item.func}
                             className={classNames(
                               item.current
@@ -187,33 +191,33 @@ function Dashboard() {
                           leaveTo="transform opacity-0 scale-95"
                         >
                           <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                  
-                              <Menu.Item >
-                                {({ active }) => (
-                                  <a
-                                    href="#"
-                                    className={classNames(
-                                      active ? "bg-gray-100" : "",
-                                      "block px-4 py-2 text-sm text-gray-700"
-                                    )}
-                                  >
-                                    Your Profile
-                                  </a>
-                                )}
-                              </Menu.Item>
-                              <Menu.Item >
-                                {({ active }) => (
-                                  <button
-                                    onClick={logoutHandler}
-                                    className={classNames(
-                                      active ? "bg-gray-100" : "",
-                                      "block px-4 py-2 text-sm text-gray-700"
-                                    )}
-                                  >
-                                    sign Out
-                                  </button>
-                                )}
-                              </Menu.Item>
+
+                            <Menu.Item >
+                              {({ active }) => (
+                                <a
+                                  href="#"
+                                  className={classNames(
+                                    active ? "bg-gray-100" : "",
+                                    "block px-4 py-2 text-sm text-gray-700"
+                                  )}
+                                >
+                                  Your Profile
+                                </a>
+                              )}
+                            </Menu.Item>
+                            <Menu.Item >
+                              {({ active }) => (
+                                <button
+                                  onClick={logoutHandler}
+                                  className={classNames(
+                                    active ? "bg-gray-100" : "",
+                                    "block px-4 py-2 text-sm text-gray-700"
+                                  )}
+                                >
+                                  sign Out
+                                </button>
+                              )}
+                            </Menu.Item>
                           </Menu.Items>
                         </Transition>
                       </Menu>
@@ -286,16 +290,28 @@ function Dashboard() {
                     </button>
                   </div>
                   <div className="mt-3 space-y-1 px-2">
-                    {userNavigation.map((item) => (
-                      <Disclosure.Button
-                        key={item.name}
-                        as="a"
-                        href={item.href}
+
+                    <Disclosure.Button >
+                      {({ active }) => (
+                        <a
+                          href="/dashboard"
+                          className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+
+                        >
+                          Your Profile
+                        </a>
+                      )}
+                    </Disclosure.Button>
+                    <Disclosure.Button >
+                      <button
+                        onClick={logoutHandler}
                         className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+
                       >
-                        {item.name}
-                      </Disclosure.Button>
-                    ))}
+                        sign Out
+                      </button>
+                    </Disclosure.Button>
+
                   </div>
                 </div>
               </Disclosure.Panel>
@@ -305,11 +321,11 @@ function Dashboard() {
 
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex justify-between">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900 ">
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900 " style={{ fontSize: '1.8rem', fontWeight: 400 }}>
               Expense Manager
             </h1>
-            <Button variant="contained" onClick={() => setShowCreate(true)}>
-              Add Expense
+            <Button variant="contained" onClick={() => setShowCreate(true)} style={{ width: '6.78rem', height: '2rem', marginTop: '.6vh' }}>
+              <h6 style={{ fontSize: '.7rem' }}>Add Expense</h6>
             </Button>
           </div>
         </header>
@@ -325,7 +341,7 @@ function Dashboard() {
       {showDelete ? (
         <DeletePopup open={showDelete} setOpen={setShowDelete} id={deleteId} />
       ) : null}
-      {showEdit ? <EditPopup open={showEdit} setOpen={setShowEdit} dets={editDets}  /> : null}
+      {showEdit ? <EditPopup open={showEdit} setOpen={setShowEdit} dets={editDets} /> : null}
     </>
   );
 }
